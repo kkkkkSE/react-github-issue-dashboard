@@ -1,49 +1,76 @@
 /* eslint-disable import/no-extraneous-dependencies */
+import { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
 import Markdown from 'markdown-to-jsx';
 
+import filterIssue from '../utils/filterIssue';
 import formatDate from '../utils/formatDate';
 
-import { Issue } from '../types';
+import { apiService } from '../services/ApiService';
+
+import { Issue, nullIssue } from '../types';
 
 interface IssueProps {
-  issue: Issue;
+  id: number;
 }
 
 export default function Issue({
-  issue,
+  id,
 }: IssueProps) {
+  const [issue, setIssue] = useState<Issue>(nullIssue);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const fetchIssue = async () => {
+      try {
+        const data = await apiService.fetchIssue({ id });
+
+        setIssue(data);
+      } catch (e) {
+        setError(true);
+      }
+    };
+
+    fetchIssue();
+  }, []);
+
+  const filteredIssue = filterIssue(issue);
+
+  if (error) {
+    throw Error();
+  }
+
   return (
     <>
       <IssueHeader>
         <div>
-          <img src={issue.user.avatar_url} alt={issue.user.login} />
+          <img src={filteredIssue.user.avatar_url} alt={filteredIssue.user.login} />
         </div>
         <div>
           <b>
             <span>
               [#
-              {issue.number}
+              {filteredIssue.number}
               ]
             </span>
-            {issue.title}
+            {filteredIssue.title}
           </b>
           <p>
             작성자:
             {' '}
-            {issue.user.login}
+            {filteredIssue.user.login}
             , 작성일:
             {' '}
-            {formatDate(issue.created_at)}
+            {formatDate(filteredIssue.created_at)}
           </p>
         </div>
         <div>
           <p>
             코멘트:
             {' '}
-            {issue.comments}
+            {filteredIssue.comments}
           </p>
         </div>
       </IssueHeader>
