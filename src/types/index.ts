@@ -4,7 +4,7 @@ export interface User {
 }
 
 export interface Issue {
-  number: string,
+  number: number,
   title: string,
   user: User,
   comments: number,
