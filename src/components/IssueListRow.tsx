@@ -1,5 +1,8 @@
 import styled from 'styled-components';
+
 import { Issue } from '../types';
+
+import formatDate from '../utils/formatDate';
 
 interface IssueListRowProps {
   issue: Issue;
@@ -26,7 +29,7 @@ export default function IssueListRow({
           {issue.user.login}
           , 작성일:
           {' '}
-          {issue.created_at}
+          {formatDate(issue.created_at)}
         </p>
       </div>
       <div>
@@ -58,5 +61,9 @@ const Container = styled.li`
     span {
       padding-right: .8rem;
     }
+  }
+
+  > div:nth-child(2){
+    white-space: nowrap;
   }
 `;

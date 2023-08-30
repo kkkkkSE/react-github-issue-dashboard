@@ -85,7 +85,16 @@ const IssueHeader = styled.div`
 `;
 
 const IssueBody = styled.div`
+  ul {
+    padding-left: 2rem;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.3;
+  }
+
   pre {
+    overflow-x: scroll;
     background-color: ${(props) => props.theme.colors.gray50};
     padding: 2rem;
     border-radius: 1rem;
