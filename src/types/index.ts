@@ -11,3 +11,15 @@ export interface Issue {
   created_at: string,
   body: string,
 }
+
+export const nullIssue = {
+  number: 0,
+  title: '',
+  user: {
+    login: '',
+    avatar_url: '',
+  },
+  comments: 0,
+  created_at: '',
+  body: '',
+};
