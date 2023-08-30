@@ -1,7 +1,7 @@
+import IssueList from '../components/IssueList';
+
 export default function IssueListPage() {
   return (
-    <div>
-      Issue List
-    </div>
+    <IssueList />
   );
 }
