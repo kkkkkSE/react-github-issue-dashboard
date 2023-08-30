@@ -2,9 +2,16 @@ import ReactDOM from 'react-dom/client';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+import { Reset } from 'styled-reset';
+
+import { ThemeProvider } from 'styled-components';
+
+import GlobalStyle from './styles/GlobalStyle';
+import defaultTheme from './styles/defaultTheme';
+
 import routes from './routes';
 
-function main() {
+function index() {
   const container = document.getElementById('root');
 
   if (!container) {
@@ -16,8 +23,12 @@ function main() {
   const router = createBrowserRouter(routes);
 
   root.render(
-    <RouterProvider router={router} />,
+    <ThemeProvider theme={defaultTheme}>
+      <Reset />
+      <GlobalStyle />
+      <RouterProvider router={router} />
+    </ThemeProvider>,
   );
 }
 
-main();
+index();
