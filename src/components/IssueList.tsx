@@ -1,15 +1,12 @@
-import { useEffect, useState } from 'react';
-
 import { useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
+
 import { Issue } from '../types';
 
-import filterIssueList from '../utils/filterIssueList';
-
-import { apiService } from '../services/ApiService';
-
 import ROUTES from '../constants/routes';
+
+import useIssueListInfiniteScroll from '../hooks/useIssueListInfiniteScroll';
 
 import IssueListRow from './IssueListRow';
 import AD from './AD';
@@ -17,19 +14,7 @@ import AD from './AD';
 export default function IssueList() {
   const navigate = useNavigate();
 
-  const [issueList, setIssueList] = useState([]);
-
-  useEffect(() => {
-    const fetchIssueList = async () => {
-      const data = await apiService.fetchIssues({ page: 1 });
-
-      setIssueList(data);
-    };
-
-    fetchIssueList();
-  }, []);
-
-  const filteredIssueList = filterIssueList(issueList);
+  const { targetRef, issueList } = useIssueListInfiniteScroll();
 
   const isDisplayAD = (index: number) => (index - 3) % 4 === 0;
 
@@ -39,7 +24,7 @@ export default function IssueList() {
 
   return (
     <Container>
-      {filteredIssueList.map((issue: Issue, index: number) => (
+      {issueList.map((issue: Issue, index: number) => (
         <>
           <IssueListRow
             key={issue.number}
@@ -52,6 +37,8 @@ export default function IssueList() {
           )}
         </>
       ))}
+
+      <div ref={targetRef} />
     </Container>
   );
 }
