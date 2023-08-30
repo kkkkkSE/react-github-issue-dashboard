@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import styled from 'styled-components';
 import { Issue } from '../types';
 
 import filterIssueList from '../utils/filterIssueList';
@@ -37,7 +38,7 @@ export default function IssueList() {
   };
 
   return (
-    <ul>
+    <Container>
       {filteredIssueList.map((issue: Issue, index: number) => (
         <>
           <IssueListRow
@@ -47,12 +48,22 @@ export default function IssueList() {
           />
 
           {isDisplayAD(index) && (
-            <li>
-              <AD />
-            </li>
+            <AD key={`${issue.number}-ad`} />
           )}
         </>
       ))}
-    </ul>
+    </Container>
   );
 }
+
+const Container = styled.ul`
+  padding: 0;
+  
+  * {
+    margin: 0;
+  }
+  
+  li {
+    list-style: none;
+  }
+`;
