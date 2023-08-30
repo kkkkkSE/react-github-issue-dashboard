@@ -14,13 +14,17 @@ import AD from './AD';
 export default function IssueList() {
   const navigate = useNavigate();
 
-  const { targetRef, issueList } = useIssueListInfiniteScroll();
+  const { targetRef, issueList, error } = useIssueListInfiniteScroll();
 
   const isDisplayAD = (index: number) => (index - 3) % 4 === 0;
 
   const handleMoveIssue = (id: number) => {
     navigate(ROUTES.ISSUE(id));
   };
+
+  if (error) {
+    throw Error();
+  }
 
   return (
     <Container>

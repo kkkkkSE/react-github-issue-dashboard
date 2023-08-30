@@ -10,16 +10,21 @@ const useIssueListInfiniteScroll = () => {
 
   const [issueList, setIssueList] = useState<any[]>([]);
   const [page, setPage] = useState(1);
+  const [error, setError] = useState(false);
 
   const observer = new IntersectionObserver(
     ([entry]:IntersectionObserverEntry[]) => {
       if (!entry.isIntersecting) return;
 
       const fetchIssueList = async () => {
-        const data = await apiService.fetchIssues({ page });
+        try {
+          const data = await apiService.fetchIssues({ page });
 
-        setIssueList((prev) => [...prev, ...data]);
-        setPage((prev) => prev + 1);
+          setIssueList((prev) => [...prev, ...data]);
+          setPage((prev) => prev + 1);
+        } catch (e) {
+          setError(true);
+        }
       };
 
       fetchIssueList();
@@ -43,6 +48,7 @@ const useIssueListInfiniteScroll = () => {
   return {
     targetRef,
     issueList: filteredIssueList,
+    error,
   };
 };
 
