@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-import Markdown from 'markdown-to-jsx';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import 'property-information';
 
 import formatDate from '../utils/formatDate';
 
@@ -42,8 +44,8 @@ export default function IssueDetail() {
         </div>
       </IssueHeader>
 
-      <IssueBody>
-        <Markdown>{issue.body}</Markdown>
+      <IssueBody className="markdown-body">
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{issue.body}</ReactMarkdown>
       </IssueBody>
     </>
   );
@@ -52,7 +54,7 @@ export default function IssueDetail() {
 const IssueHeader = styled.div`
   display: flex;
   align-items: center;
-  padding-block: .8rem;
+  padding-block: 0.8rem;
   border-bottom: 1px solid ${(props) => props.theme.colors.gray300};
 
   * {
@@ -79,18 +81,13 @@ const IssueHeader = styled.div`
 `;
 
 const IssueBody = styled.div`
+  padding-block: 2rem;
+  
   ul {
     padding-left: 2rem;
   }
-
-  h1, h2, h3, h4, h5, h6 {
-    line-height: 1.3;
-  }
-
-  pre {
-    overflow-x: scroll;
-    background-color: ${(props) => props.theme.colors.gray50};
-    padding: 2rem;
-    border-radius: 1rem;
+  
+  li {
+    list-style: circle;
   }
 `;
