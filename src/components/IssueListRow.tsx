@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { Issue } from '../types';
 
-import formatDate from '../utils/formatDate';
+import formatIsoDate from '../utils/formatIsoDate';
 
 interface IssueListRowProps {
   issue: Issue;
@@ -29,7 +29,7 @@ export default function IssueListRow({
           {issue.user.login}
           , 작성일:
           {' '}
-          {formatDate(issue.created_at)}
+          {formatIsoDate(issue.created_at)}
         </p>
       </div>
       <div>

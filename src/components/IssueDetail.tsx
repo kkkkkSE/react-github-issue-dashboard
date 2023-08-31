@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import 'property-information';
 
-import formatDate from '../utils/formatDate';
+import formatIsoDate from '../utils/formatIsoDate';
 
 import { useSelector } from '../stores/hooks';
 
@@ -32,7 +32,7 @@ export default function IssueDetail() {
             {issue.user.login}
             , 작성일:
             {' '}
-            {formatDate(issue.created_at)}
+            {formatIsoDate(issue.created_at)}
           </p>
         </div>
         <div>
