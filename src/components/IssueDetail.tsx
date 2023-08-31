@@ -18,14 +18,14 @@ export default function IssueDetail() {
           <img src={issue.user.avatar_url} alt={issue.user.login} />
         </div>
         <div>
-          <b>
+          <h3>
             <span>
               [#
               {issue.number}
               ]
             </span>
             {issue.title}
-          </b>
+          </h3>
           <p>
             작성자:
             {' '}
@@ -57,17 +57,23 @@ const IssueHeader = styled.div`
   padding-block: 0.8rem;
   border-bottom: 1px solid ${(props) => props.theme.colors.gray300};
 
-  * {
-    margin: 0;
-  }
-
   img {
     width: 5rem;
     border-radius: 50%;
   }
 
-  b {
+  h3 {
     ${(props) => props.theme.texts.bold.subTitle}
+    line-height: 1.2;
+    padding-bottom: .6rem;
+
+    span {
+      padding-right: .8rem;
+    }
+  }
+
+  p {
+    ${(props) => props.theme.texts.regular.small}
   }
 
   > div:nth-child(2) {

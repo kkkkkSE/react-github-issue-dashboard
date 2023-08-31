@@ -57,12 +57,18 @@ const Container = styled.li`
 
   h3 {
     ${(props) => props.theme.texts.bold.subTitle}
+    line-height: 1.2;
+    padding-bottom: .6rem;
 
     span {
       padding-right: .8rem;
     }
   }
 
+  p {
+    ${(props) => props.theme.texts.regular.small}
+  }
+  
   > div:nth-child(2){
     white-space: nowrap;
   }
