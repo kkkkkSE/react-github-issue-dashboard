@@ -2,12 +2,16 @@ import ReactDOM from 'react-dom/client';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+import { Provider } from 'react-redux';
+
 import { ThemeProvider } from 'styled-components';
 
 import GlobalStyle from './styles/GlobalStyle';
 import defaultTheme from './styles/defaultTheme';
 
 import routes from './routes';
+
+import store from './stores';
 
 function index() {
   const container = document.getElementById('root');
@@ -22,8 +26,10 @@ function index() {
 
   root.render(
     <ThemeProvider theme={defaultTheme}>
-      <GlobalStyle />
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <GlobalStyle />
+        <RouterProvider router={router} />
+      </Provider>
     </ThemeProvider>,
   );
 }

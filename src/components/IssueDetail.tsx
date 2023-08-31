@@ -1,76 +1,43 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { useEffect, useState } from 'react';
-
 import styled from 'styled-components';
 
 import Markdown from 'markdown-to-jsx';
 
-import filterIssue from '../utils/filterIssue';
 import formatDate from '../utils/formatDate';
 
-import { apiService } from '../services/ApiService';
+import { useSelector } from '../stores/hooks';
 
-import { Issue, nullIssue } from '../types';
-
-interface IssueProps {
-  id: number;
-}
-
-export default function Issue({
-  id,
-}: IssueProps) {
-  const [issue, setIssue] = useState<Issue>(nullIssue);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    const fetchIssue = async () => {
-      try {
-        const data = await apiService.fetchIssue({ id });
-
-        setIssue(data);
-      } catch (e) {
-        setError(true);
-      }
-    };
-
-    fetchIssue();
-  }, []);
-
-  const filteredIssue = filterIssue(issue);
-
-  if (error) {
-    throw Error();
-  }
+export default function IssueDetail() {
+  const { issue } = useSelector((state) => state.issueDetail);
 
   return (
     <>
       <IssueHeader>
         <div>
-          <img src={filteredIssue.user.avatar_url} alt={filteredIssue.user.login} />
+          <img src={issue.user.avatar_url} alt={issue.user.login} />
         </div>
         <div>
           <b>
             <span>
               [#
-              {filteredIssue.number}
+              {issue.number}
               ]
             </span>
-            {filteredIssue.title}
+            {issue.title}
           </b>
           <p>
             작성자:
             {' '}
-            {filteredIssue.user.login}
+            {issue.user.login}
             , 작성일:
             {' '}
-            {formatDate(filteredIssue.created_at)}
+            {formatDate(issue.created_at)}
           </p>
         </div>
         <div>
           <p>
             코멘트:
             {' '}
-            {filteredIssue.comments}
+            {issue.comments}
           </p>
         </div>
       </IssueHeader>
