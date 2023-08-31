@@ -8,7 +8,7 @@ import filterIssueList from '../utils/filterIssueList';
 
 interface IssueListState {
   issueList: Issue[];
-  page: number,
+  page: number;
   isLastPage: boolean;
   isLoading: boolean;
   error: boolean;
