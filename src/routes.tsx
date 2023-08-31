@@ -7,7 +7,7 @@ import ROUTES from './constants/routes';
 import Layout from './components/Layout';
 
 const IssueList = lazy(() => import('./pages/IssueListPage'));
-const Issue = lazy(() => import('./pages/IssuePage'));
+const IssueDetail = lazy(() => import('./pages/IssueDetailPage'));
 
 const routes = [
   {
@@ -15,7 +15,7 @@ const routes = [
     children: [
       { path: ROUTES.HOME, element: <Navigate to={ROUTES.ISSUES} /> },
       { path: ROUTES.ISSUES, element: <IssueList /> },
-      { path: `${ROUTES.ISSUES}/:id`, element: <Issue /> },
+      { path: `${ROUTES.ISSUES}/:id`, element: <IssueDetail /> },
     ],
   },
 ];

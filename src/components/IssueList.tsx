@@ -6,7 +6,7 @@ import { Issue } from '../types';
 
 import ROUTES from '../constants/routes';
 
-import useIssueListInfiniteScroll from '../hooks/useIssueListInfiniteScroll';
+import { useSelector } from '../stores/hooks';
 
 import IssueListRow from './IssueListRow';
 import AD from './AD';
@@ -14,17 +14,13 @@ import AD from './AD';
 export default function IssueList() {
   const navigate = useNavigate();
 
-  const { targetRef, issueList, error } = useIssueListInfiniteScroll();
+  const { issueList } = useSelector((state) => state.issueList);
 
   const isDisplayAD = (index: number) => (index - 3) % 4 === 0;
 
   const handleMoveIssue = (id: number) => {
     navigate(ROUTES.ISSUE(id));
   };
-
-  if (error) {
-    throw Error();
-  }
 
   return (
     <Container>
@@ -41,8 +37,6 @@ export default function IssueList() {
           )}
         </>
       ))}
-
-      <div ref={targetRef} />
     </Container>
   );
 }
