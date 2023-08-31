@@ -6,6 +6,8 @@ import { Issue } from '../types';
 
 import filterIssueList from '../utils/filterIssueList';
 
+import { PER_PAGE } from '../constants/apis';
+
 interface IssueListState {
   issueList: Issue[];
   page: number;
@@ -61,7 +63,7 @@ export const issueListSlice = createSlice({
         state.isLoading = false;
         state.error = false;
 
-        if (issueListNextPage.length === 0) {
+        if (issueListNextPage.length < PER_PAGE) {
           state.isLastPage = true;
         }
       })
