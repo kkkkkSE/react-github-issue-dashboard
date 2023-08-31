@@ -17,6 +17,6 @@ const Container = styled.li`
     min-height: 7rem;
     ${(props) => props.theme.alignCenter.horizontal}
     margin-block: 1.2rem;
-    box-shadow: .1rem .1rem .6rem rgba(0, 0, 0, 0.15);
+    border: 1px solid ${(props) => props.theme.colors.gray300}
   }
 `;

@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 
-import styled from 'styled-components';
-
 import { Issue } from '../types';
 
 import ROUTES from '../constants/routes';
@@ -23,7 +21,7 @@ export default function IssueList() {
   };
 
   return (
-    <Container>
+    <ul>
       {issueList.map((issue: Issue, index: number) => (
         <>
           <IssueListRow
@@ -37,18 +35,6 @@ export default function IssueList() {
           )}
         </>
       ))}
-    </Container>
+    </ul>
   );
 }
-
-const Container = styled.ul`
-  padding: 0;
-  
-  * {
-    margin: 0;
-  }
-  
-  li {
-    list-style: none;
-  }
-`;

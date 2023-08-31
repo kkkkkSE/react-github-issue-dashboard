@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import { ThemeProvider } from 'styled-components';
+import { Reset } from 'styled-reset';
 
 import GlobalStyle from './styles/GlobalStyle';
 import defaultTheme from './styles/defaultTheme';
@@ -27,6 +28,7 @@ function index() {
   root.render(
     <ThemeProvider theme={defaultTheme}>
       <Provider store={store}>
+        <Reset />
         <GlobalStyle />
         <RouterProvider router={router} />
       </Provider>
