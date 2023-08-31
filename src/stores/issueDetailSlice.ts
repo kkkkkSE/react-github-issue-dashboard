@@ -38,7 +38,7 @@ export const fetchIssue = createAsyncThunk(
 
       return data;
     } catch (e) {
-      throw Error();
+      throw new Error();
     }
   },
 );

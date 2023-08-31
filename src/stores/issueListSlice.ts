@@ -30,7 +30,7 @@ export const fetchIssueListNextPage = createAsyncThunk(
 
       return data;
     } catch (e) {
-      throw Error();
+      throw new Error();
     }
   },
 );
