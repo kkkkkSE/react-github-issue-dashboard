@@ -2,9 +2,21 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { apiService } from '../services/ApiService';
 
-import { Issue, nullIssue } from '../types';
+import { Issue } from '../types';
 
 import filterIssue from '../utils/filterIssue';
+
+const initailIssue = {
+  number: 0,
+  title: '',
+  user: {
+    login: '',
+    avatar_url: '',
+  },
+  comments: 0,
+  created_at: '',
+  body: '',
+};
 
 interface IssueDetailState {
   issue: Issue;
@@ -13,7 +25,7 @@ interface IssueDetailState {
 }
 
 const initialState: IssueDetailState = {
-  issue: nullIssue,
+  issue: initailIssue,
   isLoading: false,
   error: false,
 };
@@ -36,7 +48,7 @@ export const issueDetailSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => {
-      state.issue = nullIssue;
+      state.issue = initailIssue;
       state.isLoading = false;
       state.error = false;
     },
@@ -53,7 +65,7 @@ export const issueDetailSlice = createSlice({
         state.error = false;
       })
       .addCase(fetchIssue.rejected, (state) => {
-        state.issue = nullIssue;
+        state.issue = initailIssue;
         state.isLoading = false;
         state.error = true;
       });
