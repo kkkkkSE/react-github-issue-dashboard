@@ -4,8 +4,6 @@ import { apiService } from '../services/ApiService';
 
 import { Issue } from '../types';
 
-import filterIssueList from '../utils/filterIssueList';
-
 import { PER_PAGE } from '../constants/apis';
 
 interface IssueListState {
@@ -22,6 +20,19 @@ const initialState: IssueListState = {
   isLastPage: false,
   isLoading: false,
   error: false,
+};
+
+const refineIssueList = <T extends Issue>(issueList: T[]) => {
+  const refinedIssueList = issueList.map((issue) => ({
+    number: issue.number,
+    title: issue.title,
+    user: issue.user,
+    comments: issue.comments,
+    created_at: issue.created_at,
+    body: issue.body,
+  }));
+
+  return refinedIssueList;
 };
 
 export const fetchIssueListNextPage = createAsyncThunk(
@@ -57,7 +68,7 @@ export const issueListSlice = createSlice({
         state.error = false;
       })
       .addCase(fetchIssueListNextPage.fulfilled, (state, action) => {
-        const issueListNextPage = filterIssueList(action.payload);
+        const issueListNextPage = refineIssueList(action.payload);
 
         state.issueList = [...state.issueList, ...issueListNextPage];
         state.isLoading = false;

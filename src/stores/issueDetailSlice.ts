@@ -4,8 +4,6 @@ import { apiService } from '../services/ApiService';
 
 import { Issue } from '../types';
 
-import filterIssue from '../utils/filterIssue';
-
 const initailIssue = {
   number: 0,
   title: '',
@@ -28,6 +26,19 @@ const initialState: IssueDetailState = {
   issue: initailIssue,
   isLoading: false,
   error: false,
+};
+
+const refineIssue = <T extends Issue>(issue: T) => {
+  const refinedIssue = {
+    number: issue.number,
+    title: issue.title,
+    user: issue.user,
+    comments: issue.comments,
+    created_at: issue.created_at,
+    body: issue.body,
+  };
+
+  return refinedIssue;
 };
 
 export const fetchIssue = createAsyncThunk(
@@ -60,7 +71,7 @@ export const issueDetailSlice = createSlice({
         state.error = false;
       })
       .addCase(fetchIssue.fulfilled, (state, action) => {
-        state.issue = filterIssue(action.payload);
+        state.issue = refineIssue(action.payload);
         state.isLoading = false;
         state.error = false;
       })
