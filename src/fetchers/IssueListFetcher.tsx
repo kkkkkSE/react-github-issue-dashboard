@@ -26,7 +26,7 @@ export default function IssueListFetcher({ children } : React.PropsWithChildren)
     return (
       <>
         {children}
-        <Error />
+        <Error error={error} />
       </>
     );
   }

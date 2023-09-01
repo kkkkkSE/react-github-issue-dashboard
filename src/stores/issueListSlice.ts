@@ -11,7 +11,7 @@ interface IssueListState {
   nextPage: number;
   isLastPage: boolean;
   isLoading: boolean;
-  error: boolean;
+  error: string;
 }
 
 const initialState: IssueListState = {
@@ -19,7 +19,7 @@ const initialState: IssueListState = {
   nextPage: 1,
   isLastPage: false,
   isLoading: false,
-  error: false,
+  error: '',
 };
 
 const refineIssueList = <T extends Issue>(issueList: T[]) => {
@@ -37,13 +37,17 @@ const refineIssueList = <T extends Issue>(issueList: T[]) => {
 
 export const fetchIssueListNextPage = createAsyncThunk(
   'issueList/fetchIssueListNextPage',
-  async (page: number) => {
+  async (page: number, thunkApi) => {
     try {
       const data = await apiService.fetchIssues({ page });
 
       return data;
     } catch (e) {
-      throw new Error();
+      if (e instanceof Error) {
+        return thunkApi.rejectWithValue(e.message);
+      }
+
+      return thunkApi.rejectWithValue('Network Error');
     }
   },
 );
@@ -57,14 +61,14 @@ export const issueListSlice = createSlice({
       state.nextPage = 1;
       state.isLastPage = false;
       state.isLoading = false;
-      state.error = false;
+      state.error = '';
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchIssueListNextPage.pending, (state) => {
         state.isLoading = true;
-        state.error = false;
+        state.error = '';
       })
       .addCase(fetchIssueListNextPage.fulfilled, (state, action) => {
         const issueListNextPage = refineIssueList(action.payload);
@@ -72,15 +76,15 @@ export const issueListSlice = createSlice({
         state.issueList = [...state.issueList, ...issueListNextPage];
         state.nextPage += 1;
         state.isLoading = false;
-        state.error = false;
+        state.error = '';
 
         if (issueListNextPage.length < PER_PAGE) {
           state.isLastPage = true;
         }
       })
-      .addCase(fetchIssueListNextPage.rejected, (state) => {
+      .addCase(fetchIssueListNextPage.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = true;
+        state.error = action.payload as string;
       });
   },
 });

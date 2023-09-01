@@ -28,7 +28,7 @@ export default function IssueDetailFetcher({ children } : React.PropsWithChildre
   }, []);
 
   if (error) {
-    return <Error />;
+    return <Error error={error} />;
   }
 
   if (isLoading) {

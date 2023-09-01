@@ -19,13 +19,13 @@ const initailIssue = {
 interface IssueDetailState {
   issue: Issue;
   isLoading: boolean;
-  error: boolean;
+  error: string;
 }
 
 const initialState: IssueDetailState = {
   issue: initailIssue,
   isLoading: false,
-  error: false,
+  error: '',
 };
 
 const refineIssue = <T extends Issue>(issue: T) => {
@@ -43,13 +43,17 @@ const refineIssue = <T extends Issue>(issue: T) => {
 
 export const fetchIssue = createAsyncThunk(
   'issueDetail/fetchIssue',
-  async (id: number) => {
+  async (id: number, thunkApi) => {
     try {
       const data = await apiService.fetchIssue({ id });
 
       return data;
     } catch (e) {
-      throw new Error();
+      if (e instanceof Error) {
+        return thunkApi.rejectWithValue(e.message);
+      }
+
+      return thunkApi.rejectWithValue('Network Error');
     }
   },
 );
@@ -61,24 +65,24 @@ export const issueDetailSlice = createSlice({
     reset: (state) => {
       state.issue = initailIssue;
       state.isLoading = false;
-      state.error = false;
+      state.error = '';
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchIssue.pending, (state) => {
         state.isLoading = true;
-        state.error = false;
+        state.error = '';
       })
       .addCase(fetchIssue.fulfilled, (state, action) => {
         state.issue = refineIssue(action.payload);
         state.isLoading = false;
-        state.error = false;
+        state.error = '';
       })
-      .addCase(fetchIssue.rejected, (state) => {
+      .addCase(fetchIssue.rejected, (state, action) => {
         state.issue = initailIssue;
         state.isLoading = false;
-        state.error = true;
+        state.error = action.payload as string;
       });
   },
 });
