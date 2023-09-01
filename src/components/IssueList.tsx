@@ -21,7 +21,7 @@ export default function IssueList() {
     frequency: number;
   }) => (index - (frequency - 1)) % frequency === 0;
 
-  const handleMoveIssue = (id: number) => {
+  const goToIssueDetail = (id: number) => {
     navigate(ROUTES.ISSUE(id));
   };
 
@@ -31,7 +31,7 @@ export default function IssueList() {
         <React.Fragment key={issue.number}>
           <IssueListRow
             issue={issue}
-            onClickIssue={handleMoveIssue}
+            goToIssueDetail={goToIssueDetail}
           />
 
           {isShowAD({ index, frequency: 4 }) && (
