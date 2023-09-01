@@ -4,11 +4,11 @@ import { apiService } from '../services/ApiService';
 
 import { Issue } from '../types';
 
-import filterIssueList from '../utils/filterIssueList';
+import { PER_PAGE } from '../constants/apis';
 
 interface IssueListState {
   issueList: Issue[];
-  page: number,
+  page: number;
   isLastPage: boolean;
   isLoading: boolean;
   error: boolean;
@@ -22,6 +22,19 @@ const initialState: IssueListState = {
   error: false,
 };
 
+const refineIssueList = <T extends Issue>(issueList: T[]) => {
+  const refinedIssueList = issueList.map((issue) => ({
+    number: issue.number,
+    title: issue.title,
+    user: issue.user,
+    comments: issue.comments,
+    created_at: issue.created_at,
+    body: issue.body,
+  }));
+
+  return refinedIssueList;
+};
+
 export const fetchIssueListNextPage = createAsyncThunk(
   'issueList/fetchIssueListNextPage',
   async (page: number) => {
@@ -30,7 +43,7 @@ export const fetchIssueListNextPage = createAsyncThunk(
 
       return data;
     } catch (e) {
-      throw Error();
+      throw new Error();
     }
   },
 );
@@ -55,13 +68,13 @@ export const issueListSlice = createSlice({
         state.error = false;
       })
       .addCase(fetchIssueListNextPage.fulfilled, (state, action) => {
-        const issueListNextPage = filterIssueList(action.payload);
+        const issueListNextPage = refineIssueList(action.payload);
 
         state.issueList = [...state.issueList, ...issueListNextPage];
         state.isLoading = false;
         state.error = false;
 
-        if (issueListNextPage.length === 0) {
+        if (issueListNextPage.length < PER_PAGE) {
           state.isLastPage = true;
         }
       })

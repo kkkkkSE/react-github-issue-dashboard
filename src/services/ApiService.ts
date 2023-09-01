@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign */
 import axios, { AxiosInstance } from 'axios';
 
+import { PER_PAGE } from '../constants/apis';
+
 export default class ApiService {
   private instance : AxiosInstance;
 
@@ -27,7 +29,7 @@ export default class ApiService {
       params: {
         state: 'open',
         sort: 'comments',
-        per_page: 20,
+        per_page: PER_PAGE,
         page,
       },
     });

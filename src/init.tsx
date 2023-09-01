@@ -14,7 +14,7 @@ import routes from './routes';
 
 import store from './stores';
 
-function index() {
+function init() {
   const container = document.getElementById('root');
 
   if (!container) {
@@ -36,4 +36,4 @@ function index() {
   );
 }
 
-index();
+init();

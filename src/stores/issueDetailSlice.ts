@@ -2,9 +2,19 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { apiService } from '../services/ApiService';
 
-import { Issue, nullIssue } from '../types';
+import { Issue } from '../types';
 
-import filterIssue from '../utils/filterIssue';
+const initailIssue = {
+  number: 0,
+  title: '',
+  user: {
+    login: '',
+    avatar_url: '',
+  },
+  comments: 0,
+  created_at: '',
+  body: '',
+};
 
 interface IssueDetailState {
   issue: Issue;
@@ -13,9 +23,22 @@ interface IssueDetailState {
 }
 
 const initialState: IssueDetailState = {
-  issue: nullIssue,
+  issue: initailIssue,
   isLoading: false,
   error: false,
+};
+
+const refineIssue = <T extends Issue>(issue: T) => {
+  const refinedIssue = {
+    number: issue.number,
+    title: issue.title,
+    user: issue.user,
+    comments: issue.comments,
+    created_at: issue.created_at,
+    body: issue.body,
+  };
+
+  return refinedIssue;
 };
 
 export const fetchIssue = createAsyncThunk(
@@ -26,7 +49,7 @@ export const fetchIssue = createAsyncThunk(
 
       return data;
     } catch (e) {
-      throw Error();
+      throw new Error();
     }
   },
 );
@@ -36,7 +59,7 @@ export const issueDetailSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => {
-      state.issue = nullIssue;
+      state.issue = initailIssue;
       state.isLoading = false;
       state.error = false;
     },
@@ -48,12 +71,12 @@ export const issueDetailSlice = createSlice({
         state.error = false;
       })
       .addCase(fetchIssue.fulfilled, (state, action) => {
-        state.issue = filterIssue(action.payload);
+        state.issue = refineIssue(action.payload);
         state.isLoading = false;
         state.error = false;
       })
       .addCase(fetchIssue.rejected, (state) => {
-        state.issue = nullIssue;
+        state.issue = initailIssue;
         state.isLoading = false;
         state.error = true;
       });

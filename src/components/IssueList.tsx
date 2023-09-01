@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { useNavigate } from 'react-router-dom';
 
 import { Issue } from '../types';
@@ -14,26 +16,28 @@ export default function IssueList() {
 
   const { issueList } = useSelector((state) => state.issueList);
 
-  const isDisplayAD = (index: number) => (index - 3) % 4 === 0;
+  const isShowAD = ({ index, frequency }:{
+    index: number;
+    frequency: number;
+  }) => (index - (frequency - 1)) % frequency === 0;
 
-  const handleMoveIssue = (id: number) => {
+  const goToIssueDetail = (id: number) => {
     navigate(ROUTES.ISSUE(id));
   };
 
   return (
     <ul>
       {issueList.map((issue: Issue, index: number) => (
-        <>
+        <React.Fragment key={issue.number}>
           <IssueListRow
-            key={issue.number}
             issue={issue}
-            onClickIssue={handleMoveIssue}
+            goToIssueDetail={goToIssueDetail}
           />
 
-          {isDisplayAD(index) && (
-            <AD key={`${issue.number}-ad`} />
+          {isShowAD({ index, frequency: 4 }) && (
+            <AD />
           )}
-        </>
+        </React.Fragment>
       ))}
     </ul>
   );
