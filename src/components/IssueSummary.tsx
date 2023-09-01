@@ -63,8 +63,13 @@ const Container = styled.div`
 
   p {
     ${(props) => props.theme.texts.regular.small}
+    line-height: 1.2;
   }
   
+  > div:nth-child(1){
+    padding-inline: 1.2rem;
+  }
+
   > div:nth-child(2){
     white-space: nowrap;
   }
