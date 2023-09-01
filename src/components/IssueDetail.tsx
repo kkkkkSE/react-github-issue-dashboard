@@ -24,11 +24,14 @@ const Container = styled.div`
   > div:nth-child(1) {
     display: flex;
     align-items: center;
+    margin-bottom: .8rem;
+    padding: 1.2rem 1.8rem;
+    border-radius: 1rem;
+    background-color: ${(props) => props.theme.colors.gray300};
 
     img {
       width: 5rem;
       border-radius: 50%;
-      margin-right: 1.2rem;
     }
   }
 `;
