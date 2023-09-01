@@ -16,7 +16,10 @@ export default function IssueList() {
 
   const { issueList } = useSelector((state) => state.issueList);
 
-  const isDisplayAD = (index: number) => (index - 3) % 4 === 0;
+  const isShowAD = ({ index, frequency }:{
+    index: number;
+    frequency: number;
+  }) => (index - (frequency - 1)) % frequency === 0;
 
   const handleMoveIssue = (id: number) => {
     navigate(ROUTES.ISSUE(id));
@@ -31,7 +34,7 @@ export default function IssueList() {
             onClickIssue={handleMoveIssue}
           />
 
-          {isDisplayAD(index) && (
+          {isShowAD({ index, frequency: 4 }) && (
             <AD />
           )}
         </React.Fragment>
