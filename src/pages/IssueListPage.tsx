@@ -1,11 +1,15 @@
+import ErrorBoundary from '../error-boundary/ErrorBoundary';
+
 import IssueListFetcher from '../fetchers/IssueListFetcher';
 
 import IssueList from '../components/IssueList';
 
 export default function IssueListPage() {
   return (
-    <IssueListFetcher>
-      <IssueList />
-    </IssueListFetcher>
+    <ErrorBoundary>
+      <IssueListFetcher>
+        <IssueList />
+      </IssueListFetcher>
+    </ErrorBoundary>
   );
 }
