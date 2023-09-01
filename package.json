@@ -1,4 +1,7 @@
 {
+  "staticFiles": {
+    "staticPath": "static"
+  },
   "name": "react-github-issue-dashboard",
   "version": "1.0.0",
   "description": "",
