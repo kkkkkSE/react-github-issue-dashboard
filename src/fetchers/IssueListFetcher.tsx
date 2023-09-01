@@ -1,27 +1,34 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-
 import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from '../stores/hooks';
-import { fetchIssueListNextPage } from '../stores/issueListSlice';
+import { reset } from '../stores/issueListSlice';
 
 import useIssueListInfiniteScroll from '../hooks/useIssueListInfiniteScroll';
 
 import Loading from '../components/Loading';
+import Error from '../components/Error';
 
 export default function IssueListFetcher({ children } : React.PropsWithChildren) {
   const dispatch = useDispatch();
 
-  const { page, isLoading, error } = useSelector((state) => state.issueList);
+  const { isLoading, error } = useSelector((state) => state.issueList);
 
   const { targetRef } = useIssueListInfiniteScroll();
 
-  useEffect(() => {
-    dispatch(fetchIssueListNextPage(page));
-  }, [page]);
+  useEffect(() => () => {
+    if (error) {
+      dispatch(reset());
+    }
+  }, [error]);
 
   if (error) {
-    throw new Error();
+    return (
+      <>
+        {children}
+        <Error />
+      </>
+    );
   }
 
   if (isLoading) {

@@ -1,12 +1,14 @@
 import { useEffect, useRef } from 'react';
 
 import { useDispatch, useSelector } from '../stores/hooks';
-import issueListSlice from '../stores/issueListSlice';
+import { fetchIssueListNextPage } from '../stores/issueListSlice';
 
 const useIssueListInfiniteScroll = () => {
   const dispatch = useDispatch();
 
-  const { isLastPage, isLoading, error } = useSelector((state) => state.issueList);
+  const {
+    nextPage, isLastPage, isLoading, error,
+  } = useSelector((state) => state.issueList);
 
   const targetRef = useRef<HTMLDivElement>(null);
 
@@ -16,7 +18,7 @@ const useIssueListInfiniteScroll = () => {
         return;
       }
       if (!isLastPage && !isLoading && !error) {
-        dispatch(issueListSlice.actions.increasePage());
+        dispatch(fetchIssueListNextPage(nextPage));
       }
     },
   );

@@ -8,7 +8,7 @@ import { PER_PAGE } from '../constants/apis';
 
 interface IssueListState {
   issueList: Issue[];
-  page: number;
+  nextPage: number;
   isLastPage: boolean;
   isLoading: boolean;
   error: boolean;
@@ -16,7 +16,7 @@ interface IssueListState {
 
 const initialState: IssueListState = {
   issueList: [],
-  page: 1,
+  nextPage: 1,
   isLastPage: false,
   isLoading: false,
   error: false,
@@ -52,11 +52,10 @@ export const issueListSlice = createSlice({
   name: 'issueList',
   initialState,
   reducers: {
-    increasePage: (state) => {
-      state.page += 1;
-    },
     reset: (state) => {
       state.issueList = [];
+      state.nextPage = 1;
+      state.isLastPage = false;
       state.isLoading = false;
       state.error = false;
     },
@@ -71,6 +70,7 @@ export const issueListSlice = createSlice({
         const issueListNextPage = refineIssueList(action.payload);
 
         state.issueList = [...state.issueList, ...issueListNextPage];
+        state.nextPage += 1;
         state.isLoading = false;
         state.error = false;
 
@@ -79,13 +79,12 @@ export const issueListSlice = createSlice({
         }
       })
       .addCase(fetchIssueListNextPage.rejected, (state) => {
-        state.issueList = [];
         state.isLoading = false;
         state.error = true;
       });
   },
 });
 
-export const { increasePage, reset } = issueListSlice.actions;
+export const { reset } = issueListSlice.actions;
 
 export default issueListSlice;

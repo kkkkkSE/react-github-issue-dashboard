@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from '../stores/hooks';
 import { fetchIssue, reset } from '../stores/issueDetailSlice';
 
 import Loading from '../components/Loading';
+import Error from '../components/Error';
 
 export default function IssueDetailFetcher({ children } : React.PropsWithChildren) {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ export default function IssueDetailFetcher({ children } : React.PropsWithChildre
   }, []);
 
   if (error) {
-    throw new Error();
+    return <Error />;
   }
 
   if (isLoading) {
