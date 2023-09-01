@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import axios, { AxiosInstance } from 'axios';
 
 import { PER_PAGE } from '../constants/apis';
